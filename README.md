@@ -1,2 +1,2 @@
 # bing-scraper
-Scrape results from Microsoft Bing
+Scrape results from Microsoft Bing.
