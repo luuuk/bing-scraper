@@ -73,7 +73,11 @@ exports.search = function(query, cb) {
             ) {continue;}
             var resultTitle = utils.normalizeText($("#b_results .b_algo h2 a")[c].children[0].data);
             var resultLink = $("#b_results .b_algo h2 a")[c].attribs.href;
-            var desc = utils.normalizeText($("#b_results .b_algo .b_caption p")[c].children);
+            if ($("#b_results .b_algo .b_caption p")[c] !== undefined && $("#b_results .b_algo .b_caption p")[c].children !== undefined) {
+                var desc = utils.normalizeText($("#b_results .b_algo .b_caption p")[c].children);
+            } else {
+                var desc = "";
+            }
             var result = {
                 "title": resultTitle,
                 "url": resultLink,

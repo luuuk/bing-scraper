@@ -1,6 +1,6 @@
 {
   "name": "bing-scraper",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Web scraper for Bing.",
   "main": "index.js",
   "scripts": {
@@ -25,5 +25,9 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.5",
     "got": "^11.8.1"
-  }
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "devDependencies": {}
 }
