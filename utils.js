@@ -1,6 +1,5 @@
 const got = require("got");
 const cheerio = require("cheerio");
-const utils = require(".")
 
 exports.normalizeText = function(array) {
     if (Object.prototype.toString.call(array) == "[object Array]") {

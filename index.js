@@ -3,8 +3,8 @@ const cheerio = require("cheerio");
 const utils = require("./utils")
 
 exports.search = function(query, cb) {
-    if (typeof query == "object" && Object.prototype.toString.call(query) == "[object Object]") {
-        if (!query.q) {cb({message: "No query defined.",code: "noQuery"}, null); return null;}
+    if (Object.prototype.toString.call(query) == "[object Object]") {
+        if (!query.q) {cb({message: "No query defined.",code: "noQuery"}, null);}
         var q = query.q.toString();
         if (query.userAgent) { var ua = query.userAgent; } else { var ua = ""; }
         if (query.lang) { var lang = query.lang; } else { var ua = "en-US,en;q=0.5"; }
@@ -26,6 +26,7 @@ exports.search = function(query, cb) {
         var lang = "en-US,en;q=0.5";
         var ref = "https://www.bing.com/";
         var cookies = null;
+        var enforceL = true;
         var pageCount = 1;
         var obj = {
             "q": q,
@@ -37,7 +38,7 @@ exports.search = function(query, cb) {
         };
     }
     
-    if (enforceL) { 
+    if (enforceL == true) { 
         var url = "https://www.bing.com/search?q=" + q + "&search=&lf=1&form=QBLH" 
     } else { 
         var url = "https://www.bing.com/search?q=" + q + "&search=&form=QBLH"; 
@@ -114,7 +115,6 @@ function repeatUntilZero(nObj) {
     utils.moreResults(link, obj, function(err, resp) {
         if (err) {
             cb(false, results);
-            pageCount = 0;
         } else {
             for (var c in resp) {results.push(resp[c]);}
             var newObj = nObj;
