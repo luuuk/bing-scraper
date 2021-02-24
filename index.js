@@ -4,22 +4,33 @@ const utils = require("./utils")
 
 exports.search = function(query, cb) {
     if (Object.prototype.toString.call(query) == "[object Object]") {
-        if (!query.q) {cb({message: "No query defined.",code: "noQuery"}, null);}
-        var q = query.q.toString();
+        if (!query.q && !query.url) {cb({message: "No query/url defined.",code: "noQuery"}, null);}
+        if (query.q) {var q = query.q.toString();} else if (query.url) {var url = query.url;}
         if (query.userAgent) { var ua = query.userAgent; } else { var ua = ""; }
         if (query.lang) { var lang = query.lang; } else { var ua = "en-US,en;q=0.5"; }
         if (query.referer) { var ref = query.referer; } else { var ref = "https://www.bing.com/"; }
         if (query.cookieString) { var cookies = query.cookieString; } else { var cookies = null; }
         if (query.enforceLanguage) { var enforceL = query.enforceLanguage; } else { var enforceL = false; }
         if (query.pageCount) { var pageCount = query.pageCount } else { var pageCount = 1; }
-        var obj = {
-            "q": q,
-            "userAgent": ua,
-            "lang": lang,
-            "referer": ref,
-            "cookieString": cookies,
-            "pageCount": pageCount
-        };
+        if (q) {
+            var obj = {
+                "q": q,
+                "userAgent": ua,
+                "lang": lang,
+                "referer": ref,
+                "cookieString": cookies,
+                "pageCount": pageCount
+            };
+        } else {
+            var obj = {
+                "url": url,
+                "userAgent": ua,
+                "lang": lang,
+                "referer": ref,
+                "cookieString": cookies,
+                "pageCount": pageCount
+            };
+        }
     } else {
         var q = query.toString();
         var ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0";
@@ -38,9 +49,9 @@ exports.search = function(query, cb) {
         };
     }
     
-    if (enforceL == true) { 
+    if (enforceL == true && !url) { 
         var url = "https://www.bing.com/search?q=" + q + "&search=&lf=1&form=QBLH" 
-    } else { 
+    } else if (!url) { 
         var url = "https://www.bing.com/search?q=" + q + "&search=&form=QBLH"; 
     }
 
@@ -66,8 +77,9 @@ exports.search = function(query, cb) {
             results: []
         };
 
-        // web result scraping
+        rObj.lastHref = url;
 
+        // web result scraping
         for (var c in $("#b_results .b_algo")) {
             if (
                 $("#b_results .b_algo h2 a")[c] == undefined || 
@@ -89,6 +101,17 @@ exports.search = function(query, cb) {
                 "description": desc
             };
             rObj.results.push(result);
+        }
+
+        // next page href scraping
+        if (
+            $(".sb_pagN")[0] !== undefined && 
+            $(".sb_pagN")[0].attribs !== undefined &&
+            $(".sb_pagN")[0].attribs.href !== undefined
+        ) {
+            rObj.nextHref = "https://www.bing.com" + $(".sb_pagN")[0].attribs.href;
+        } else {
+            rObj.nextHref = null;
         }
 
         // top answer scraping
@@ -128,15 +151,12 @@ exports.search = function(query, cb) {
         // more web scraping, if requested
         if (pageCount == 1) {cb(false, rObj);} 
         else if (
-            $(".sb_pagN")[0] !== undefined && 
-            $(".sb_pagN")[0].attribs !== undefined &&
-            $(".sb_pagN")[0].attribs.href !== undefined
+            rObj.nextPage !== null
         ) {
-            var link = "https://www.bing.com" + $(".sb_pagN")[0].attribs.href;
             obj.pl = pageCount - 1;
             pageCount = pageCount - 1;
             var nObj = {
-                link: link,
+                link: rObj.nextHref,
                 obj: obj,
                 p: pageCount,
                 cb: cb,
@@ -159,9 +179,12 @@ function repeatUntilZero(nObj) {
     var cb = nObj.cb;
     utils.moreResults(link, obj, function(err, resp) {
         if (err) {
-            cb(false, rObj.results);
+            rObj.lastHref = link;
+            cb(false, rObj);
         } else {
-            for (var c in resp) {rObj.results.push(resp[c]);}
+            for (var c in resp.results) {rObj.results.push(resp.results[c]);}
+            rObj.lastHref = resp.lastHref;
+            rObj.nextHref = resp.nextHref;
             var newObj = nObj;
             newObj.p = (pageCount - 1);
             if (pageCount !== 0) {

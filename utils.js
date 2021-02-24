@@ -42,6 +42,8 @@ function normalizeText(array) {
 }
 
 exports.moreResults = function (href, info, cb) {
+    var rObj = { results:[] };
+    rObj.lastHref = href;
     got(href, {
         headers: {
             "Host": "www.bing.com",
@@ -59,7 +61,8 @@ exports.moreResults = function (href, info, cb) {
         }
     }).then(function(resp) {
         var $ = cheerio.load(resp.body);
-        var results = [];
+
+        // web result scraping
         for (var c in $("#b_results .b_algo")) {
             if (
                 $("#b_results .b_algo h2 a")[c] == undefined || 
@@ -80,9 +83,21 @@ exports.moreResults = function (href, info, cb) {
                 "url": resultLink,
                 "description": desc
             };
-            results.push(result);
+            rObj.results.push(result);
         }
-        cb(false, results)
+
+        // next page href scraping
+        if (
+            $(".sb_pagN")[0] !== undefined && 
+            $(".sb_pagN")[0].attribs !== undefined &&
+            $(".sb_pagN")[0].attribs.href !== undefined
+        ) {
+            rObj.nextHref = "https://www.bing.com" + $(".sb_pagN")[0].attribs.href;
+        } else {
+            rObj.nextHref = null;
+        }
+
+        cb(false, rObj);
     }).catch(function(err) {
         cb(err, null);
     })

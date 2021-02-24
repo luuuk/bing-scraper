@@ -47,7 +47,9 @@ bing.search({
 }
 ```
 
-``q`` is the only required variable and is your search.
+``q`` or ``url`` is required in the object.
+
+``q`` is the query of your search, ``url`` is a URL you recieve from either the ``lastHref`` or ``nextHref`` varibles in the response.
 
 ``userAgent`` is the User Agent used to request Bing with. If it is not set, it defaults to ``Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0``.
 
@@ -86,6 +88,8 @@ I take two despite...'
       description: "2020-10-26 · [Chorus] D#m C# F# A#m Sugar, sugar, sugar pills D#m C# Oh, give me something more F# A#m for my wild imagination D#m C# F# A#m Sugar, sugar, sugar pills D#m C# Tell me that you're more F# A#m than a sick fascination G# Fascination, fascination [Post-Chorus] D#m C# F# A#m (x2) [Verse 2] D#m C# A quick fix, it's a cheap trick G# Get …"
     }
   ],
+  lastHref: "https://www.bing.com/search?q=sugar pills idkhow&search=&lf=1&form=QBLH",
+  nextHref: "https://www.bing.com/search?q=sugar+pills+idkhow&search=&lf=1&first=6&FORM=PORE",
   topAnswer: null,
   qnaAnswer: null
 }
