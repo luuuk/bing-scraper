@@ -43,7 +43,7 @@ function normalizeText(array) {
 
 exports.moreResults = function (href, info, cb) {
     var rObj = { results:[] };
-    rObj.lastHref = href;
+    rObj.currHref = href;
     got(href, {
         headers: {
             "Host": "www.bing.com",
@@ -84,6 +84,17 @@ exports.moreResults = function (href, info, cb) {
                 "description": desc
             };
             rObj.results.push(result);
+        }
+
+        // prev page href scraping
+        if (
+            $(".sb_pagP")[0] !== undefined && 
+            $(".sb_pagP")[0].attribs !== undefined &&
+            $(".sb_pagP")[0].attribs.href !== undefined
+        ) {
+            rObj.prevHref = "https://www.bing.com" + $(".sb_pagP")[0].attribs.href;
+        } else {
+            rObj.prevHref = null;
         }
 
         // next page href scraping

@@ -77,7 +77,7 @@ exports.search = function(query, cb) {
             results: []
         };
 
-        rObj.lastHref = url;
+        rObj.currHref = url;
 
         // web result scraping
         for (var c in $("#b_results .b_algo")) {
@@ -101,6 +101,17 @@ exports.search = function(query, cb) {
                 "description": desc
             };
             rObj.results.push(result);
+        }
+
+         // prev page href scraping
+         if (
+            $(".sb_pagP")[0] !== undefined && 
+            $(".sb_pagP")[0].attribs !== undefined &&
+            $(".sb_pagP")[0].attribs.href !== undefined
+        ) {
+            rObj.prevHref = "https://www.bing.com" + $(".sb_pagP")[0].attribs.href;
+        } else {
+            rObj.prevHref = null;
         }
 
         // next page href scraping
@@ -183,7 +194,8 @@ function repeatUntilZero(nObj) {
             cb(false, rObj);
         } else {
             for (var c in resp.results) {rObj.results.push(resp.results[c]);}
-            rObj.lastHref = resp.lastHref;
+            rObj.prevHref = resp.prevHref;
+            rObj.currHref = resp.currHref;
             rObj.nextHref = resp.nextHref;
             var newObj = nObj;
             newObj.p = (pageCount - 1);
