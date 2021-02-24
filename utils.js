@@ -12,7 +12,9 @@ exports.normalizeText = function(array) {
                 array[c].children[0] !== undefined &&
                 array[c].children[0].type == "text"
             ) {
-                string = string + array[c].children[0].data;
+                for (var d in array[c].children) {
+                    if (array[c].children[d].data) {string = string + array[c].children[d].data;} else {continue;}
+                }
             }
         }
         return string;
@@ -32,7 +34,9 @@ function normalizeText(array) {
                 array[c].children[0] !== undefined &&
                 array[c].children[0].type == "text"
             ) {
-                string = string + array[c].children[0].data;
+                for (var d in array[c].children) {
+                    if (array[c].children[d].data) {string = string + array[c].children[d].data;} else {continue;}
+                }
             }
         }
         return string;
