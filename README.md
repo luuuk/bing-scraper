@@ -62,34 +62,33 @@ bing.search({
 #### result
 
 ```js
-[
-  {
-    title: 'I DONT KNOW HOW BUT THEY FOUND ME – Sugar Pills Lyrics | …',
-    url: 'https://genius.com/I-dont-know-how-but-they-found-me-sugar-pills-lyrics',
-    description: "2020-10-23 · Sugar, sugar, sugar pills (Pills) Tell me that you're more than a sick fascination [Outro] Oh, you're with me all the time Give me something more for my wild imagination Always in 
-the back of my ..."
-  },
-  {
-    title: 'I DONT KNOW HOW BUT THEY FOUND ME - Sugar Pills - YouTube',
-    url: 'https://www.youtube.com/watch?v=Wv6cN-y6ps4',
-    description: "2020-10-23 · I DONT KNOW HOW BUT THEY FOUND ME – SugarpillsFrom the album 'Razzmatazz' | Available NowListen/Download: http://found.ee/razzmatazzSubscribe to iDKHOW on Yo..."
-  },
-  {
-    title: 'I Dont Know How But They Found Me - Sugar Pills Lyrics | …',
-    url: 'https://www.azlyrics.com/lyrics/idontknowhowbuttheyfoundme/sugarpills.html',
-    description: "Sugar sugar sugar pills Tell me that you're more than a sick fascination You're with me all the time Give me something more for my wild imagination Always in the back of my mind Tell me that you're more than a sick fascination Fascination Fascination Fascination Fascination Submit Corrections. Thanks to Logan for correcting these lyrics. Writer(s): Dallon Weekes, Stu Maxfield. AZLyrics…"
-  },
-  {
-    title: "SUGAR PILLS CHORDS by I Don't Know How But They Found Me …",
-    url: 'https://tabs.ultimate-guitar.com/tab/i-dont-know-how-but-they-found-me/sugar-pills-chords-3388484',
-    description: "2020-10-26 · Sugar Pills chords by I Don't Know How But They Found Me. 1,747 views, added to favorites 137 times. Tuning: E A D G B E. Author jessieloz [pro] 261. 1 contributor total, last edit on Oct 26, 2020. Download Pdf. Chords. Guitar Ukulele Piano. D#m. 2. 4. 3. 1. 1 of 14. C#. 2. 3. 4. 1 of 16. F#. 2fr. 2. 4. 3. 1 of 16. A#m. 2. 4. 3. 1 of 14. G#. 4fr. 2. 4. 3. 1 of 16 . B. 2fr. 4. 3. 2. …"    
-  },
-  {
-    title: 'I DONT KNOW HOW BUT THEY FOUND ME - RAZZMATAZZ Lyrics …',
-    url: 'https://genius.com/albums/I-dont-know-how-but-they-found-me/Razzmatazz',
-    description: '2020-10-23 · Sugar Pills Lyrics. 11.9K 9. Kiss Goodnight ... Razzmatazz is IDKHOW’s debut album and second project with Fearless Records set to release October 16, 2020. The band has stated that it will ...'
-  }
-]
+{
+  results: [
+    {
+      title: 'I DONT KNOW HOW BUT THEY FOUND ME – Sugar Pills Lyrics ...',
+      url: 'https://genius.com/I-dont-know-how-but-they-found-me-sugar-pills-lyrics',
+      description: '2020-10-23 · Sugar Pills Lyrics: (Ooh, ooh, ooh, ooh, ooh, ooh) / (Ooh, ooh, ooh, ooh, ooh, ooh) / (Ooh, ooh, ooh, ooh, ooh, ooh) / (Ooh, ooh, ooh, ooh) / I take one to make me feel better / 
+I take two despite...'
+    },
+    {
+      title: 'I DONT KNOW HOW BUT THEY FOUND ME - Sugar Pills - YouTube',
+      url: 'https://www.youtube.com/watch?v=Wv6cN-y6ps4',
+      description: "2020-10-23 · I DONT KNOW HOW BUT THEY FOUND ME – SugarpillsFrom the album 'Razzmatazz' | Available NowListen/Download: http://found.ee/razzmatazzSubscribe to iDKHOW on Yo..."
+    },
+    {
+      title: 'I Dont Know How But They Found Me - Sugar Pills Lyrics ...',
+      url: 'https://www.azlyrics.com/lyrics/idontknowhowbuttheyfoundme/sugarpills.html',
+      description: "Sugar sugar sugar pills Give me something more for my wild imagination Sugar sugar sugar pills Tell me that you're more than a sick fascination Fascination Fascination A quick fix It's a cheap trick Get yourself a pseudo-scientific little fiction You can fix this Seven, eight, nine I'm losing count again Maybe they don't work at all Swallow ..."
+    },
+    {
+      title: "SUGAR PILLS CHORDS by I Don't Know How But They Found Me ...",
+      url: 'https://tabs.ultimate-guitar.com/tab/i-dont-know-how-but-they-found-me/sugar-pills-chords-3388484',
+      description: "2020-10-26 · [Chorus] D#m C# F# A#m Sugar, sugar, sugar pills D#m C# Oh, give me something more F# A#m for my wild imagination D#m C# F# A#m Sugar, sugar, sugar pills D#m C# Tell me that you're more F# A#m than a sick fascination G# Fascination, fascination [Post-Chorus] D#m C# F# A#m (x2) [Verse 2] D#m C# A quick fix, it's a cheap trick G# Get …"
+    }
+  ],
+  topAnswer: null,
+  qnaAnswer: null
+}
 ```
 
 ## license

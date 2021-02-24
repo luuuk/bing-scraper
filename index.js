@@ -62,7 +62,12 @@ exports.search = function(query, cb) {
         }
     }).then(async function(resp) {
         var $ = cheerio.load(resp.body);
-        var results = [];
+        var rObj = {
+            results: []
+        };
+
+        // web result scraping
+
         for (var c in $("#b_results .b_algo")) {
             if (
                 $("#b_results .b_algo h2 a")[c] == undefined || 
@@ -83,9 +88,45 @@ exports.search = function(query, cb) {
                 "url": resultLink,
                 "description": desc
             };
-            results.push(result);
+            rObj.results.push(result);
         }
-        if (pageCount == 1) {cb(false, results);} 
+
+        // top answer scraping
+        if (
+            $("#b_results .b_ans .b_tppFact .b_imagePair")[0] !== undefined ||
+            $("#b_results .b_top .b_tppFact .b_imagePair .b_focusTextLarge")[0] !== undefined ||
+            $("#b_results .b_top .b_tppFact .b_imagePair .b_focusLabel")[0] !== undefined 
+        ) {
+            var answer = utils.normalizeText($("#b_results .b_top .b_tppFact .b_imagePair .b_focusTextLarge")[0].children);
+            var ansTit = utils.normalizeText($("#b_results .b_top .b_tppFact .b_imagePair .b_focusLabel")[0].children);
+            if (
+                $("#b_results .b_top .b_tppFact .b_imagePair .cico img")[0] !== undefined || 
+                $("#b_results .b_top .b_tppFact .b_imagePair .cico img")[0].attribs["data-src-hq"] !== undefined
+            ) {
+                var src = "https://www.bing.com" + $("#b_results .b_top .b_tppFact .b_imagePair .cico img")[0].attribs["data-src-hq"]
+            } else {var src = null;}
+            rObj.topAnswer = { answer: answer, title: ansTit, image: src };
+        } else {
+            rObj.topAnswer = null;
+        }
+
+        // qna answer scraping
+        if (
+            $("#b_results .b_ans .qna-mf")[0] !== undefined ||
+            $("#b_results .b_ans .qna-mf .b_vPanel .rwrl")[0] !== undefined ||
+            $("#b_results .b_ans .qna-mf .b_vPanel .qna_algo a")[0] !== undefined && 
+            $("#b_results .b_ans .qna-mf .b_vPanel .qna_algo a")[0].children !== undefined
+        ) {
+            var answer = utils.normalizeText($("#b_results .b_ans .qna-mf .b_vPanel .rwrl")[0].children);
+            var ansSrcTit = utils.normalizeText($("#b_results .b_ans .qna-mf .b_vPanel .qna_algo a")[0].children);
+            var ansSrcLnk = $("#b_results .b_ans .qna-mf .b_vPanel .qna_algo a")[0].attribs.href;
+            rObj.qnaAnswer = { answer: answer, source: { title: ansSrcTit, url: ansSrcLnk } }
+        } else {
+            rObj.qnaAnswer = null;
+        }
+
+        // more web scraping, if requested
+        if (pageCount == 1) {cb(false, rObj);} 
         else if (
             $(".sb_pagN")[0] !== undefined && 
             $(".sb_pagN")[0].attribs !== undefined &&
@@ -99,11 +140,11 @@ exports.search = function(query, cb) {
                 obj: obj,
                 p: pageCount,
                 cb: cb,
-                results: results
+                responseObject: rObj
             }
             repeatUntilZero(nObj);
         } else {
-            cb(false, results);
+            cb(false, rObj);
         }
     }).catch(function(err) {
         cb(err, null);
@@ -114,13 +155,13 @@ function repeatUntilZero(nObj) {
     var link = nObj.link;
     var obj = nObj.obj;
     var pageCount = nObj.p;
-    var results = nObj.results;
+    var rObj = nObj.responseObject;
     var cb = nObj.cb;
     utils.moreResults(link, obj, function(err, resp) {
         if (err) {
-            cb(false, results);
+            cb(false, rObj.results);
         } else {
-            for (var c in resp) {results.push(resp[c]);}
+            for (var c in resp) {rObj.results.push(resp[c]);}
             var newObj = nObj;
             newObj.p = (pageCount - 1);
             if (pageCount !== 0) {
@@ -128,7 +169,7 @@ function repeatUntilZero(nObj) {
                     repeatUntilZero(newObj);
                 }, 500)
             }
-            else {cb(false, results);}
+            else {cb(false, rObj);}
         }
     })
 }
