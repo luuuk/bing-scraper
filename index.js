@@ -197,6 +197,7 @@ function repeatUntilZero(nObj) {
             rObj.prevHref = resp.prevHref;
             rObj.currHref = resp.currHref;
             rObj.nextHref = resp.nextHref;
+            rObj.results = utils.removeDuplicates(rObj.results, "url");
             var newObj = nObj;
             newObj.p = (pageCount - 1);
             if (pageCount !== 0) {

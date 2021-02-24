@@ -113,3 +113,13 @@ exports.moreResults = function (href, info, cb) {
         cb(err, null);
     })
 }
+
+exports.removeDuplicates = function (arr, prop) {
+    var obj = {};
+    for ( var i = 0, len = arr.length; i < len; i++ ){
+        if(!obj[arr[i][prop]]) obj[arr[i][prop]] = arr[i];
+    }
+    var newArr = [];
+    for ( var key in obj ) newArr.push(obj[key]);
+    return newArr;
+}
