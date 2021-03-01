@@ -2,12 +2,48 @@ const got = require("got");
 const cheerio = require("cheerio");
 const utils = require("./utils")
 
+exports.getCookies = function(opts, cb) {
+    if (opts == null) {
+        var ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0";
+        var lang = "en-US,en;q=0.5";
+        var ref = "https://www.bing.com/";
+    } else {
+        if (opts.userAgent) { var ua = opts.userAgent; } else { var ua = ""; }
+        if (opts.lang) { var lang = opts.lang; } else { var ua = "en-US,en;q=0.5"; }
+        if (opts.referer) { var ref = opts.referer; } else { var ref = "https://www.bing.com/"; }
+    }
+    got("https://www.bing.com", {
+        headers: {
+            "Host": "www.bing.com",
+            "User-Agent": ua,
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Accept-Language": lang,
+            "Accept-Encoding": "gzip, deflate, br",
+            "Referer": ref,
+            "DNT": "1",
+            "Connection": "keep-alive",
+            "Upgrade-Insecure-Requests": "1",
+            "Sec-GPC": "1",
+            "Cache-Control": "max-age=0",
+            "TE": "Trailers"
+        }
+    }).then(function(resp) {
+        var co = "";
+        for (var c in resp.headers["set-cookie"]) {
+            var co = co + resp.headers["set-cookie"][c].split("; ")[0] + "; ";
+        }
+        cb(null, co);
+    }).catch(function(err) {
+        cb(err, null);
+    });
+}
+
 exports.search = function(query, cb) {
     if (Object.prototype.toString.call(query) == "[object Object]") {
         if (!query.q && !query.url) {cb({message: "No query/url defined.",code: "noQuery"}, null);}
         if (query.q) {var q = query.q.toString();} else if (query.url) {var url = query.url;}
-        if (query.userAgent) { var ua = query.userAgent; } else { var ua = ""; }
-        if (query.lang) { var lang = query.lang; } else { var ua = "en-US,en;q=0.5"; }
+        if (query.userAgent) { var ua = query.userAgent; } else { var ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0"; }
+        if (query.lang) { var lang = query.lang; } else { var lang = "en-US,en;q=0.5"; }
         if (query.referer) { var ref = query.referer; } else { var ref = "https://www.bing.com/"; }
         if (query.cookieString) { var cookies = query.cookieString; } else { var cookies = null; }
         if (query.enforceLanguage) { var enforceL = query.enforceLanguage; } else { var enforceL = false; }
@@ -55,9 +91,24 @@ exports.search = function(query, cb) {
         var url = "https://www.bing.com/search?q=" + q + "&search=&form=QBLH"; 
     }
 
-    got(url,
-    {
-        headers: {
+    if (cookies !== null) {
+        var hdr = {
+            "Host": "www.bing.com",
+            "User-Agent": ua,
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Accept-Language": lang,
+            "Accept-Encoding": "gzip, deflate, br",
+            "Cookie": cookies,
+            "Referer": ref,
+            "DNT": "1",
+            "Connection": "keep-alive",
+            "Upgrade-Insecure-Requests": "1",
+            "Sec-GPC": "1",
+            "Cache-Control": "max-age=0",
+            "TE": "Trailers"
+        };
+    } else {
+        var hdr = {
             "Host": "www.bing.com",
             "User-Agent": ua,
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
@@ -70,8 +121,10 @@ exports.search = function(query, cb) {
             "Sec-GPC": "1",
             "Cache-Control": "max-age=0",
             "TE": "Trailers"
-        }
-    }).then(async function(resp) {
+        };
+    }
+
+    got(url,{headers: hdr}).then(async function(resp) {
         var $ = cheerio.load(resp.body);
         var rObj = {
             results: []
@@ -88,7 +141,7 @@ exports.search = function(query, cb) {
                 $("#b_results .b_algo h2 a")[c].children[0].data == undefined ||
                 $("#b_results .b_algo h2 a")[c].children[0].data == '!DOCTYPE html ""'
             ) {continue;}
-            var resultTitle = utils.normalizeText($("#b_results .b_algo h2 a")[c].children[0].data);
+            var resultTitle = utils.normalizeText($("#b_results .b_algo h2 a")[c].children);
             var resultLink = $("#b_results .b_algo h2 a")[c].attribs.href;
             if ($("#b_results .b_algo .b_caption p")[c] !== undefined && $("#b_results .b_algo .b_caption p")[c].children !== undefined) {
                 var desc = utils.normalizeText($("#b_results .b_algo .b_caption p")[c].children);
@@ -167,16 +220,163 @@ exports.search = function(query, cb) {
         else if (
             rObj.nextPage !== null
         ) {
-            obj.pl = pageCount - 1;
+            if (query.url) {var wurl = true;} else {var wurl = false;}
             pageCount = pageCount - 1;
             var nObj = {
                 link: rObj.nextHref,
                 obj: obj,
                 p: pageCount,
                 cb: cb,
-                responseObject: rObj
+                responseObject: rObj,
+                wasUrl: wurl
             }
             repeatUntilZero(nObj);
+        } else {
+            cb(false, rObj);
+        }
+    }).catch(function(err) {
+        cb(err, null);
+    })
+}
+
+exports.imageSearch = function(query, cb) {
+    if (Object.prototype.toString.call(query) == "[object Object]") {
+        if (!query.q && !query.url) {cb({message: "No query/url defined.",code: "noQuery"}, null);}
+        if (query.q) {var q = query.q.toString();} else if (query.url) {var url = query.url;}
+        if (query.userAgent) { var ua = query.userAgent; } else { var ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0"; }
+        if (query.lang) { var lang = query.lang; } else { var lang = "en-US,en;q=0.5"; }
+        if (query.referer) { var ref = query.referer; } else { var ref = "https://www.bing.com/"; }
+        if (query.cookieString) { var cookies = query.cookieString; } else { var cookies = null; }
+        if (query.pageCount) { var pageCount = query.pageCount } else { var pageCount = 1; }
+        if (q) {
+            var obj = {
+                "q": q,
+                "userAgent": ua,
+                "lang": lang,
+                "referer": ref,
+                "cookieString": cookies,
+                "pageCount": pageCount
+            };
+        } else {
+            var obj = {
+                "url": url,
+                "userAgent": ua,
+                "lang": lang,
+                "referer": ref,
+                "cookieString": cookies,
+                "pageCount": pageCount
+            };
+        }
+    } else {
+        var q = query.toString();
+        var ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0";
+        var lang = "en-US,en;q=0.5";
+        var ref = "https://www.bing.com/";
+        var cookies = null;
+        var pageCount = 1;
+        var obj = {
+            "q": q,
+            "userAgent": ua,
+            "lang": lang,
+            "referer": ref,
+            "cookieString": cookies,
+            "pageCount": pageCount
+        };
+    }
+
+    if (cookies !== null) {
+        var hdr = {
+            "Host": "www.bing.com",
+            "User-Agent": ua,
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Accept-Language": lang,
+            "Accept-Encoding": "gzip, deflate, br",
+            "Cookie": cookies,
+            "Referer": ref,
+            "DNT": "1",
+            "Connection": "keep-alive",
+            "Upgrade-Insecure-Requests": "1",
+            "Sec-GPC": "1",
+            "Cache-Control": "max-age=0",
+            "TE": "Trailers"
+        };
+    } else {
+        var hdr = {
+            "Host": "www.bing.com",
+            "User-Agent": ua,
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Accept-Language": lang,
+            "Accept-Encoding": "gzip, deflate, br",
+            "Referer": ref,
+            "DNT": "1",
+            "Connection": "keep-alive",
+            "Upgrade-Insecure-Requests": "1",
+            "Sec-GPC": "1",
+            "Cache-Control": "max-age=0",
+            "TE": "Trailers"
+        };
+    }
+
+    var u = "https://www.bing.com/images/search?q=" + q
+
+    got(u, {headers: hdr}).then(function(resp) {
+        var $ = cheerio.load(resp.body);
+        var results = [];
+
+        // image scraping
+        for (var c in $(".dg_b .iusc")) {
+            if ($(".dg_b .iusc")[c] !== undefined && $(".dg_b .iusc")[c].attribs !== undefined) {
+                if ($(".dg_b .iusc")[c].attribs["m"]) {
+                    var j = JSON.parse($(".dg_b .iusc")[c].attribs["m"]);
+                    if (j == null) {continue;}
+                    var obj = {
+                        "thumbnail": j.turl,
+                        "source": j.purl,
+                        "direct": j.murl,
+                        "description": j.desc,
+                        "title": j.t
+                    };
+                    results.push(obj);
+                } else {
+                    continue;
+                }
+            } else {
+                continue;
+            }
+        }
+
+        // next href url
+        if (
+            $(".dg_b .dgControl")[0] !== undefined &&
+            $(".dg_b .dgControl")[0].attribs !== undefined &&
+            $(".dg_b .dgControl")[0].attribs["data-nexturl"] !== undefined 
+        ) {
+            var nextUrl = "https://www.bing.com" + $(".dg_b .dgControl")[0].attribs["data-nexturl"];
+        } else {
+            var nextUrl = null;
+        }
+
+        var rObj = {
+            results: results,
+            nextHref: nextUrl,
+            currHref: u
+        };
+
+        if (pageCount == 1) {cb(false, rObj);} 
+        else if (
+            rObj.nextHref !== null
+        ) {
+            if (query.url) {var wurl = true;} else {var wurl = false;}
+            pageCount = pageCount - 1;
+            var nObj = {
+                link: rObj.nextHref,
+                obj: obj,
+                p: pageCount,
+                cb: cb,
+                responseObject: rObj,
+                wasUrl: wurl
+            }
+            repeatUntilZeroImg(nObj);
         } else {
             cb(false, rObj);
         }
@@ -197,7 +397,7 @@ function repeatUntilZero(nObj) {
             cb(false, rObj);
         } else {
             for (var c in resp.results) {rObj.results.push(resp.results[c]);}
-            rObj.prevHref = resp.prevHref;
+            if (nObj.wasUrl) {rObj.lastHref = resp.lastHref;}
             rObj.currHref = resp.currHref;
             rObj.nextHref = resp.nextHref;
             rObj.results = utils.removeDuplicates(rObj.results, "url");
@@ -210,5 +410,31 @@ function repeatUntilZero(nObj) {
             }
             else {cb(false, rObj);}
         }
-    })
+    });
+}
+
+function repeatUntilZeroImg(nObj) {
+    var link = nObj.link;
+    var obj = nObj.obj;
+    var pageCount = nObj.p;
+    var rObj = nObj.responseObject;
+    var cb = nObj.cb;
+    utils.moreImageResults(link, obj, function(err, resp) {
+        if (err) {
+            cb(false, rObj);
+        } else {
+            for (var c in resp.results) {rObj.results.push(resp.results[c]);}
+            rObj.currHref = resp.currHref;
+            rObj.nextHref = resp.nextHref;
+            rObj.results = utils.removeDuplicates(rObj.results, "direct");
+            var newObj = nObj;
+            newObj.p = (pageCount - 1);
+            if (pageCount !== 0) {
+                setTimeout(function(){
+                    repeatUntilZeroImg(newObj);
+                }, 500)
+            }
+            else {cb(false, rObj);}
+        }
+    });
 }

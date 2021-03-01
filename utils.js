@@ -48,8 +48,25 @@ function normalizeText(array) {
 exports.moreResults = function (href, info, cb) {
     var rObj = { results:[] };
     rObj.currHref = href;
-    got(href, {
-        headers: {
+
+    if (info.cookies !== null) {
+        var hdr = {
+            "Host": "www.bing.com",
+            "User-Agent": info.ua,
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Accept-Language": info.lang,
+            "Accept-Encoding": "gzip, deflate, br",
+            "Referer": info.ref,
+            "DNT": "1",
+            "Connection": "keep-alive",
+            "Cookie": info.cookie,
+            "Upgrade-Insecure-Requests": "1",
+            "Sec-GPC": "1",
+            "Cache-Control": "max-age=0",
+            "TE": "Trailers"
+        };
+    } else {
+        var hdr = {
             "Host": "www.bing.com",
             "User-Agent": info.ua,
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
@@ -62,8 +79,10 @@ exports.moreResults = function (href, info, cb) {
             "Sec-GPC": "1",
             "Cache-Control": "max-age=0",
             "TE": "Trailers"
-        }
-    }).then(function(resp) {
+        };
+    }
+
+    got(href, {headers: hdr}).then(function(resp) {
         var $ = cheerio.load(resp.body);
 
         // web result scraping
@@ -126,4 +145,84 @@ exports.removeDuplicates = function (arr, prop) {
     var newArr = [];
     for ( var key in obj ) newArr.push(obj[key]);
     return newArr;
+}
+
+exports.moreImageResults = function(href, info, cb) {
+    var rObj = { results:[] };
+    rObj.currHref = href;
+
+    if (info.cookies !== null) {
+        var hdr = {
+            "Host": "www.bing.com",
+            "User-Agent": info.ua,
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Accept-Language": info.lang,
+            "Accept-Encoding": "gzip, deflate, br",
+            "Referer": info.ref,
+            "DNT": "1",
+            "Connection": "keep-alive",
+            "Cookie": info.cookie,
+            "Upgrade-Insecure-Requests": "1",
+            "Sec-GPC": "1",
+            "Cache-Control": "max-age=0",
+            "TE": "Trailers"
+        };
+    } else {
+        var hdr = {
+            "Host": "www.bing.com",
+            "User-Agent": info.ua,
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Accept-Language": info.lang,
+            "Accept-Encoding": "gzip, deflate, br",
+            "Referer": info.ref,
+            "DNT": "1",
+            "Connection": "keep-alive",
+            "Upgrade-Insecure-Requests": "1",
+            "Sec-GPC": "1",
+            "Cache-Control": "max-age=0",
+            "TE": "Trailers"
+        };
+    }
+
+    got(href, {headers:hdr}).then(function(resp) {
+        var $ = cheerio.load(resp.body);
+
+        for (var c in $(".dg_b .iusc")) {
+            if ($(".dg_b .iusc")[c] !== undefined && $(".dg_b .iusc")[c].attribs !== undefined) {
+                if ($(".dg_b .iusc")[c].attribs["m"]) {
+                    var j = JSON.parse($(".dg_b .iusc")[c].attribs["m"]);
+                    if (j == null) {continue;}
+                    var obj = {
+                        "thumbnail": j.turl,
+                        "source": j.purl,
+                        "direct": j.murl,
+                        "description": j.desc,
+                        "title": j.t
+                    };
+                    rObj.results.push(obj);
+                } else {
+                    continue;
+                }
+            } else {
+                continue;
+            }
+        }
+
+        // next href url
+        if (
+            $(".dg_b .dgControl")[0] !== undefined &&
+            $(".dg_b .dgControl")[0].attribs !== undefined &&
+            $(".dg_b .dgControl")[0].attribs["data-nexturl"] !== undefined 
+        ) {
+            var nextUrl = "https://www.bing.com" + $(".dg_b .dgControl")[0].attribs["data-nexturl"];
+        } else {
+            var nextUrl = null;
+        }
+
+        rObj.nextHref = nextUrl;
+
+        cb(false, rObj);
+    }).catch(function(err) {
+        cb(err, null);
+    });
 }
