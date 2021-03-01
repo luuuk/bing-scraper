@@ -180,10 +180,10 @@ exports.search = function(query, cb) {
 
         // top answer scraping
         if (
-            $("#b_results .b_ans .b_tppFact .b_imagePair")[0] !== undefined ||
+            $("#b_results .b_ans .b_tppFact .b_imagePair")[0] !== undefined &&
             $("#b_results .b_top .b_tppFact .b_imagePair .b_focusTextLarge")[0] !== undefined &&
-            $("#b_results .b_top .b_tppFact .b_imagePair .b_focusTextLarge")[0].children !== undefined ||
-            $("#b_results .b_top .b_tppFact .b_imagePair .b_focusLabel")[0] !== undefined && 
+            $("#b_results .b_top .b_tppFact .b_imagePair .b_focusTextLarge")[0].children !== undefined &&
+            $("#b_results .b_top .b_tppFact .b_imagePair .b_focusLabel")[0] !== undefined &&
             $("#b_results .b_top .b_tppFact .b_imagePair .b_focusLabel")[0].children !== undefined
         ) {
             var answer = utils.normalizeText($("#b_results .b_top .b_tppFact .b_imagePair .b_focusTextLarge")[0].children);
@@ -201,10 +201,10 @@ exports.search = function(query, cb) {
 
         // qna answer scraping
         if (
-            $("#b_results .b_ans .qna-mf")[0] !== undefined ||
-            $("#b_results .b_ans .qna-mf .b_vPanel .rwrl")[0] !== undefined ||
-            $("#b_results .b_ans .qna-mf .b_vPanel .qna_algo a")[0] !== undefined && 
-            $("#b_results .b_ans .qna-mf .b_vPanel .qna_algo a")[0].children !== undefined && 
+            $("#b_results .b_ans .qna-mf")[0] !== undefined &&
+            $("#b_results .b_ans .qna-mf .b_vPanel .rwrl")[0] !== undefined &&
+            $("#b_results .b_ans .qna-mf .b_vPanel .qna_algo a")[0] !== undefined &&
+            $("#b_results .b_ans .qna-mf .b_vPanel .qna_algo a")[0].children !== undefined &&
             $("#b_results .b_ans .qna-mf .b_vPanel .qna_algo a")[0].children[0] !== undefined
         ) {
             var answer = utils.normalizeText($("#b_results .b_ans .qna-mf .b_vPanel .rwrl")[0].children);
