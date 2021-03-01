@@ -317,7 +317,11 @@ exports.imageSearch = function(query, cb) {
         };
     }
 
-    var u = "https://www.bing.com/images/search?q=" + q
+    if (!obj.url) {
+        var u = "https://www.bing.com/images/search?q=" + q;
+    } else {
+        var u = obj.url;
+    }
 
     got(u, {headers: hdr}).then(function(resp) {
         var $ = cheerio.load(resp.body);
