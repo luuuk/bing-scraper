@@ -86,9 +86,9 @@ exports.search = function(query, cb) {
     }
     
     if (enforceL == true && !url) { 
-        var url = "https://www.bing.com/search?q=" + q + "&search=&lf=1&form=QBLH" 
+        var url = "https://www.bing.com/search?q=" + encodeURIComponent(q) + "&search=&lf=1&form=QBLH" 
     } else if (!url) { 
-        var url = "https://www.bing.com/search?q=" + q + "&search=&form=QBLH"; 
+        var url = "https://www.bing.com/search?q=" + encodeURIComponent(q) + "&search=&form=QBLH"; 
     }
 
     if (cookies !== null) {
@@ -124,7 +124,7 @@ exports.search = function(query, cb) {
         };
     }
 
-    got(url,{headers: hdr}).then(async function(resp) {
+    got(url, {headers: hdr}).then(async function(resp) {
         var $ = cheerio.load(resp.body);
         var rObj = {
             results: []
@@ -318,7 +318,7 @@ exports.imageSearch = function(query, cb) {
     }
 
     if (!obj.url) {
-        var u = "https://www.bing.com/images/search?q=" + q;
+        var u = "https://www.bing.com/images/search?q=" + encodeURIComponent(q);
     } else {
         var u = obj.url;
     }
