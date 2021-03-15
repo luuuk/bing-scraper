@@ -504,11 +504,11 @@ function repeatUntilZero(nObj) {
     var cb = nObj.cb;
     utils.moreResults(link, obj, function(err, resp) {
         if (err) {
-            rObj.lastHref = link;
+            rObj.prevHref = link;
             cb(false, rObj);
         } else {
             for (var c in resp.results) {rObj.results.push(resp.results[c]);}
-            if (nObj.wasUrl) {rObj.lastHref = resp.lastHref;}
+            if (nObj.wasUrl) {rObj.prevHref = resp.prevHref;}
             rObj.currHref = resp.currHref;
             rObj.nextHref = resp.nextHref;
             rObj.results = utils.removeDuplicates(rObj.results, "url");
