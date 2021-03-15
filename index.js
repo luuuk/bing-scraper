@@ -163,7 +163,9 @@ exports.search = function(query, cb) {
                 $(".ent-dtab-btn")[c].attribs == undefined ||
                 $(".ent-dtab-btn")[c].attribs.href == undefined || 
                 $(".ent-dtab-btn")[c].children == undefined ||
-                $(".ent-dtab-btn")[c].children[0] == undefined
+                $(".ent-dtab-btn")[c].children[0] == undefined ||
+                utils.normalizeText($(".ent-dtab-btn")[c].children) == "" ||
+                utils.normalizeText($(".ent-dtab-btn")[c].children) == " "
             ) {continue;}
             var l = "https://www.bing.com" + $(".ent-dtab-btn")[c].attribs.href;
             var n = utils.normalizeText($(".ent-dtab-btn")[c].children);
