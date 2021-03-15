@@ -30,7 +30,7 @@ bing.search({
 
 ### ``search(query, cb)``
 
-``query`` is required can be either a string or variable. If it isn't an object, the code attempts to make it a string and searches.
+``query`` is required can be either a string or variable. If it isn't an object, the code attempts to make it a string.
 
 ``cb`` is also required and is used as a callback.
 
@@ -65,34 +65,98 @@ bing.search({
 
 ```js
 {
-  results: [
-    {
-      title: 'I DONT KNOW HOW BUT THEY FOUND ME – Sugar Pills Lyrics ...',
-      url: 'https://genius.com/I-dont-know-how-but-they-found-me-sugar-pills-lyrics',
-      description: '2020-10-23 · Sugar Pills Lyrics: (Ooh, ooh, ooh, ooh, ooh, ooh) / (Ooh, ooh, ooh, ooh, ooh, ooh) / (Ooh, ooh, ooh, ooh, ooh, ooh) / (Ooh, ooh, ooh, ooh) / I take one to make me feel better / 
-I take two despite...'
-    },
-    {
-      title: 'I DONT KNOW HOW BUT THEY FOUND ME - Sugar Pills - YouTube',
-      url: 'https://www.youtube.com/watch?v=Wv6cN-y6ps4',
-      description: "2020-10-23 · I DONT KNOW HOW BUT THEY FOUND ME – SugarpillsFrom the album 'Razzmatazz' | Available NowListen/Download: http://found.ee/razzmatazzSubscribe to iDKHOW on Yo..."
-    },
-    {
-      title: 'I Dont Know How But They Found Me - Sugar Pills Lyrics ...',
-      url: 'https://www.azlyrics.com/lyrics/idontknowhowbuttheyfoundme/sugarpills.html',
-      description: "Sugar sugar sugar pills Give me something more for my wild imagination Sugar sugar sugar pills Tell me that you're more than a sick fascination Fascination Fascination A quick fix It's a cheap trick Get yourself a pseudo-scientific little fiction You can fix this Seven, eight, nine I'm losing count again Maybe they don't work at all Swallow ..."
-    },
-    {
-      title: "SUGAR PILLS CHORDS by I Don't Know How But They Found Me ...",
-      url: 'https://tabs.ultimate-guitar.com/tab/i-dont-know-how-but-they-found-me/sugar-pills-chords-3388484',
-      description: "2020-10-26 · [Chorus] D#m C# F# A#m Sugar, sugar, sugar pills D#m C# Oh, give me something more F# A#m for my wild imagination D#m C# F# A#m Sugar, sugar, sugar pills D#m C# Tell me that you're more F# A#m than a sick fascination G# Fascination, fascination [Post-Chorus] D#m C# F# A#m (x2) [Verse 2] D#m C# A quick fix, it's a cheap trick G# Get …"
-    }
-  ],
-  currHref: 'https://www.bing.com/search?q=sugar pills idkhow&search=&lf=1&form=QBLH',
-  prevHref: null,
-  nextHref: 'https://www.bing.com/search?q=sugar+pills+idkhow&search=&lf=1&first=5&FORM=PORE',
-  topAnswer: null,
-  qnaAnswer: null
+  {
+   "currHref": "https://www.bing.com/search?q=idkhow%20members&search=&lf=1&form=QBLH",
+   "results": [
+      {
+         "title": "I Dont Know How But They Found Me - Wikipedia",
+         "url": "https://en.wikipedia.org/wiki/I_Don%27t_Know_How_But_They_Found_Me#:~:text=%28Redirected%20from%20I%20Don%27t%20Know%20How%20But%20They,and%20bassist%20Dallon%20Weekes%20and%20drummer%20Ryan%20Seaman.",
+         "description": "Hey, _srchprty_ I've been looking into iDKHOW and Tellexx. Information is really scarce. Any time I find something that could be relevant, it seems to vanish. And I swear I've seen that white figure before... tellexxcorp WROTE ON JUNE 24, 1996 AT 8:46 PM: In accordance with Section 512(f) of the DMCA, this page has been shut down due to false ..."
+      },
+      {
+         "title": "I Dont Know How But They Found Me - Wikipedia",
+         "url": "https://en.wikipedia.org/wiki/I_Don%27t_Know_How_But_They_Found_Me",
+         "description": "Artist Biography by Marcy Donelson. The members of the vibrant dance-rock duo I Dont Know How But They Found Me (sometimes shortened to IDKHow or IDK) knew each other for years before they formed in secret in Salt Lake City, Utah in 2016. Late that year, they played a few shows in the Los Angeles area before word of the project eventually spread. The band released their first single, \"Modern Day Cain,\" …"
+      },
+      {
+         "title": "home - I DONT KNOW HOW BUT THEY FOUND ME",
+         "url": "https://idkhow.com/",
+         "description": "I Dont Know How But They Found Me (stylized in all caps), often shortened to IDKHow (stylized as iDKHOW), is an American musical duo based in Salt Lake City, Utah and formed in 2016. The band consists of lead vocalist and bassist Dallon Weekes and drummer Ryan Seaman. Before signing with Fearless Records, the duo was described as \"the hottest unsigned band in the world\" on the cover of …"
+      },
+      {
+         "title": "I Dont Know How But They Found Me | Biography & History ...",
+         "url": "https://www.allmusic.com/artist/i-dont-know-how-but-they-found-me-mn0004000506/biography",
+         "description": ""
+      },
+      {
+         "title": "IDKHOW History, Tours, Musical style and influences, Band ...",
+         "url": "https://www.wikipedian.net/en/IDKHOW-8404262662",
+         "description": ""
+      }
+   ],
+   "suggestedQueries": [
+      {
+         "url": "https://www.bing.com/search?q=i+dont+know+how+but+they+found+me+members&filters=dtbk:\"MjExNjEwNDk5IWtnX3Y0X21lbWJlcnMha2dfdjRfbWVtYmVycyEzMTdkM2IxOS03ZjgzLTQ2OGEtODRiYy0zNzZlNGVjZTg2ZGI=\"&FORM=DEPNAV",
+         "query": "Members"
+      },
+      {
+         "url": "https://www.bing.com/search?q=i+dont+know+how+but+they+found+me+trivia&filters=dtbk:\"MjExNjEwNDk5IWtnX3Y0X21lbWJlcnMha2dfdjRfdHJpdmlhITMxN2QzYjE5LTdmODMtNDY4YS04NGJjLTM3NmU0ZWNlODZkYg==\"&FORM=DEPNAV",
+         "query": "Trivia"
+      },
+      {
+         "url": "https://www.bing.com/search?q=i+dont+know+how+but+they+found+me+career&filters=dtbk:\"MjExNjEwNDk5IWtnX3Y0X21lbWJlcnMha2dfdjRfY2FyZWVyITMxN2QzYjE5LTdmODMtNDY4YS04NGJjLTM3NmU0ZWNlODZkYg==\"&FORM=DEPNAV",
+         "query": "Career"
+      },
+      {
+         "url": "https://www.bing.com/search?q=i+dont+know+how+but+they+found+me+interviews&filters=dtbk:\"MjExNjEwNDk5IWtnX3Y0X21lbWJlcnMha2dfdjRfaW50ZXJ2aWV3cyEzMTdkM2IxOS03ZjgzLTQ2OGEtODRiYy0zNzZlNGVjZTg2ZGI=\"&FORM=DEPNAV",
+         "query": "Interviews"
+      },
+      {
+         "url": "https://www.bing.com/search?q=i+dont+know+how+but+they+found+me+quotes&filters=dtbk:\"MjExNjEwNDk5IWtnX3Y0X21lbWJlcnMha2dfdjRfcXVvdGVzITMxN2QzYjE5LTdmODMtNDY4YS04NGJjLTM3NmU0ZWNlODZkYg==\"&FORM=DEPNAV",
+         "query": "Quotes"
+      }
+   ],
+   "carousel": {
+      "title": "I Dont Know How But They Found Me - Members",
+      "cards": [
+         {
+            "content": "Dallon Weekes",
+            "image": "https://www.bing.com/th?id=AMMS_e4329b0b4c9376319abba997f0c1d2c6&w=60&h=60&c=12&rs=1&qlt=80&cdv=1&rf=Placeholder-Person_60x60.png&pid=16.2",
+            "url": "https://www.bing.com/search?q=Dallon+Weekes&filters=ufn%3a%22Dallon+Weekes%22+sid%3a%22449be3c0-84e6-13a9-840d-174cac003f05%22+catguid%3a%22317d3b19-7f83-468a-84bc-376e4ece86db_f9b60a0f%22+segment%3a%22generic.carousel%22+secq%3a%22idkhow+members%22+supwlcar%3a%220%22+segtype%3a%22QXJ0aXN0LFNvY2lhbEFjdGl2ZQ%3d%3d%22+ctype%3a%220%22+mltype%3a%220%22+eltypedim1%3a%22Artist%22&FORM=SNAPCR"
+         },
+         {
+            "content": "Ryan Seaman",
+            "image": "https://www.bing.com/th?id=AMMS_6b061124017bb025ffa9231eead835e3&w=60&h=60&c=12&rs=1&qlt=80&cdv=1&rf=Placeholder-Person_60x60.png&pid=16.2",
+            "url": "https://www.bing.com/search?q=Ryan+Seaman&filters=ufn%3a%22Ryan+Seaman%22+sid%3a%224e83e965-8441-489d-a3be-c27921328780%22+catguid%3a%22317d3b19-7f83-468a-84bc-376e4ece86db_f9b60a0f%22+segment%3a%22generic.carousel%22+secq%3a%22idkhow+members%22+supwlcar%3a%220%22+segtype%3a%22QWN0b3I%3d%22+ctype%3a%220%22+mltype%3a%220%22+eltypedim1%3a%22Artist%22&FORM=SNAPCR"
+         }
+      ]
+   },
+   "sidebar": {
+      "title": "I Dont Know How But They Found Me",
+      "subtitle": "Band",
+      "snippet": "I Dont Know How But They Found Me, often shortened to IDKHow, is an American musical duo based in Salt Lake City, Utah and formed in 2016. The band consists of lead vocalist and bassist Dallon Weekes and drummer Ryan Seaman. Before signing with Fearless Records, the duo was described as \"the hottest unsigned band in the world\" on the cover of Rock Sound in March 2018.",
+      "image": "https://www.bing.com/th?id=AMMS_6218cbbf8c1439ea84c227e2ad200c35&w=110&h=110&c=7&rs=1&qlt=80&pcl=f9f9f9&cdv=1&pid=16.1",
+      "footnotes": [
+         {
+            "content": "Data from: Wikipedia",
+            "url": "http://en.wikipedia.org/wiki/I_Dont_Know_How_But_They_Found_Me"
+         },
+         {
+            "content": "Wikipedia text under CC-BY-SA license",
+            "url": "http://creativecommons.org/licenses/by-sa/3.0/"
+         }
+      ]
+   },
+   "prevHref": null,
+   "nextHref": "https://www.bing.com/search?q=idkhow+members&search=&lf=1&first=5&FORM=PORE",
+   "topAnswer": null,
+   "qnaAnswer": {
+      "answer": "(Redirected from I Don't Know How But They Found Me) I Dont Know How But They Found Me (stylized in all caps), often shortened to IDKHow (stylized as iDKHOW), is an American musical duo based in Salt Lake City, Utah and formed in 2016. The band consists of lead vocalist and bassist Dallon Weekes and drummer Ryan Seaman.",
+      "source": {
+         "title": "I Dont Know How But They Found Me - Wikipedia",
+         "url": "https://en.wikipedia.org/wiki/I_Don%27t_Know_How_But_They_Found_Me#:~:text=%28Redirected%20from%20I%20Don%27t%20Know%20How%20But%20They,and%20bassist%20Dallon%20Weekes%20and%20drummer%20Ryan%20Seaman."
+      }
+   }
 }
 ```
 

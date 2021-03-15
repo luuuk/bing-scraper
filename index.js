@@ -123,16 +123,15 @@ exports.search = function(query, cb) {
             "TE": "Trailers"
         };
     }
+    var rObj = {};
+
+    rObj.currHref = url;
 
     got(url, {headers: hdr}).then(async function(resp) {
         var $ = cheerio.load(resp.body);
-        var rObj = {
-            results: []
-        };
-
-        rObj.currHref = url;
-
+        
         // web result scraping
+        rObj.results = [];
         for (var c in $("#b_results .b_algo")) {
             if (
                 $("#b_results .b_algo h2 a")[c] == undefined || 
@@ -156,8 +155,116 @@ exports.search = function(query, cb) {
             rObj.results.push(result);
         }
 
-         // prev page href scraping
-         if (
+        // suggested search results
+        rObj.suggestedQueries = [];
+        for (var c in $(".ent-dtab-btn")) {
+            if (
+                $(".ent-dtab-btn")[c] == undefined ||
+                $(".ent-dtab-btn")[c].attribs == undefined ||
+                $(".ent-dtab-btn")[c].attribs.href == undefined || 
+                $(".ent-dtab-btn")[c].children == undefined ||
+                $(".ent-dtab-btn")[c].children[0] == undefined
+            ) {continue;}
+            var l = "https://www.bing.com" + $(".ent-dtab-btn")[c].attribs.href;
+            var n = utils.normalizeText($(".ent-dtab-btn")[c].children);
+            rObj.suggestedQueries.push({
+                "url": l,
+                "query": n
+            });
+        }
+
+        // carousel scraping
+        if ($(".carousel-content")[0]) {
+            if (
+                $(".carousel-content .carousel-title h2 a")[0]
+            ) {
+                rObj.carousel = {};
+                var ct = utils.normalizeText($(".carousel-content .carousel-title h2 a")[0].children);
+                rObj.carousel.title = ct;
+                rObj.carousel.cards = [];
+                for (var c in $(".carousel-content .items .item .card")) {
+                    if (
+                        $(".carousel-content .items .item .card .horInfo .tit strong")[c] == undefined || 
+                        $(".carousel-content .items .item .card .horInfo .tit strong")[c].children == undefined ||
+                        $(".carousel-content .items .item .card .horInfo .tit strong")[c].children[0] == undefined ||
+                        utils.normalizeText($(".carousel-content .items .item .card .horInfo .tit strong")[c].children) == "" ||
+                        $(".carousel-content .items .item .card a")[c] == undefined ||
+                        $(".carousel-content .items .item .card a")[c].attribs == undefined ||
+                        $(".carousel-content .items .item .card a")[c].attribs.href == undefined ||
+                        $(".carousel-content .items .item .card .horImg .cico img")[c] == undefined ||
+                        $(".carousel-content .items .item .card .horImg .cico img")[c].attribs == undefined ||
+                        $(".carousel-content .items .item .card .horImg .cico img")[c].attribs.src == undefined
+                    ) {continue;}
+                    var cardTit = utils.normalizeText($(".carousel-content .items .item .card .horInfo .tit strong")[c].children);
+                    var cardUrl = "https://www.bing.com" + $(".carousel-content .items .item .card a")[c].attribs.href;
+                    var cardImg = "https://www.bing.com" + $(".carousel-content .items .item .card .horImg .cico img")[c].attribs.src;
+                    var card = {
+                        "content": cardTit,
+                        "image": cardImg,
+                        "url": cardUrl
+                    };
+                    rObj.carousel.cards.push(card);
+                }
+            }
+        } else {
+            rObj.carousel = null;
+        }
+
+        // sidebar scraping
+        if (
+            $(".b_entityTP")[0] ||
+            $(".b_entityTP .b_entityTitle")[0] !== undefined ||
+            $(".b_entityTP .b_entitySubTitle")[0] !== undefined
+        ) {
+            // general metadata scraping
+            rObj.sidebar = {}
+            rObj.sidebar.title = utils.normalizeText($(".b_entityTP .b_entityTitle")[0].children);
+            rObj.sidebar.subtitle = utils.normalizeText($(".b_entityTP .b_entitySubTitle")[0].children);
+            if (
+                $(".b_entityTP .b_snippet div .b_hide span")[0] ||
+                $(".b_entityTP .b_snippet div .b_hide span")[0].children !== undefined ||
+                utils.normalizeText($(".b_entityTP .b_snippet div .b_hide span")[0].children) !== ""
+            ) {
+                rObj.sidebar.snippet = utils.normalizeText($(".b_entityTP .b_snippet div .b_hide span")[0].children);
+            } else {
+                rObj.sidebar.snippet = null;
+            }
+            if (
+                $(".b_entityTP .b_sideBleed .rms_img")[0] == undefined ||
+                $(".b_entityTP .b_sideBleed .rms_img")[0].attribs == undefined ||
+                $(".b_entityTP .b_sideBleed .rms_img")[0].attribs["data-src-hq"] == undefined
+            ) {
+                rObj.sidebar.image = null;
+            } else {
+                rObj.sidebar.image = "https://www.bing.com" + $(".b_entityTP .b_sideBleed .rms_img")[0].attribs["data-src-hq"];
+            }
+
+            // footnote scraping
+            rObj.sidebar.footnotes = [];
+            for (var c in $(".b_entityTP .b_footnote")) {
+                if (
+                    $(".b_entityTP .b_suppModule .b_footnote")[c] == undefined ||
+                    $(".b_entityTP .b_suppModule .b_footnote")[c].children == undefined ||
+                    $(".b_entityTP .b_suppModule .b_footnote a")[c] == undefined ||
+                    $(".b_entityTP .b_suppModule .b_footnote a")[c].attribs == undefined ||
+                    $(".b_entityTP .b_suppModule .b_footnote a")[c].attribs.href == undefined ||
+                    $(".b_entityTP .b_suppModule .b_footnote a")[c].attribs.id == "epf" 
+                ) {continue;} else {
+                    var fnCo = utils.normalizeText($(".b_entityTP .b_suppModule .b_footnote")[c].children);
+                    var fnLi = $(".b_entityTP .b_suppModule .b_footnote a")[c].attribs.href;
+                    var fn = {
+                        "content": fnCo,
+                        "url": fnLi
+                    };
+                    rObj.sidebar.footnotes.push(fn);
+                }
+            }
+        } else {
+            rObj.sidebar = null;
+        }
+
+        // prev page href scraping
+        if (
             $(".sb_pagP")[0] !== undefined && 
             $(".sb_pagP")[0].attribs !== undefined &&
             $(".sb_pagP")[0].attribs.href !== undefined
