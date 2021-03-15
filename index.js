@@ -216,7 +216,11 @@ exports.search = function(query, cb) {
         if (
             $(".b_entityTP")[0] ||
             $(".b_entityTP .b_entityTitle")[0] !== undefined ||
+            $(".b_entityTP .b_entityTitle")[0].children !== undefined ||
+            $(".b_entityTP .b_entityTitle")[0].children[0] !== undefined ||
             $(".b_entityTP .b_entitySubTitle")[0] !== undefined
+            $(".b_entityTP .b_entitySubTitle")[0].children !== undefined ||
+            $(".b_entityTP .b_entitySubTitle")[0].children[0] !== undefined ||
         ) {
             // general metadata scraping
             rObj.sidebar = {}
