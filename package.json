@@ -1,6 +1,6 @@
 {
   "name": "bing-scraper",
-  "version": "1.3.4",
+  "version": "1.3.5",
   "description": "Web scraper for Bing.",
   "main": "index.js",
   "scripts": {
