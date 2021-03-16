@@ -232,6 +232,14 @@ exports.search = function(query, cb) {
                 utils.normalizeText($(".b_entityTP .b_snippet div .b_hide span")[0].children) !== ""
             ) {
                 rObj.sidebar.snippet = utils.normalizeText($(".b_entityTP .b_snippet div .b_hide span")[0].children);
+            } else if (
+                $(".b_entityTP .b_snippet div span")[0] &&
+                $(".b_entityTP .b_snippet div span")[0].children !== undefined &&
+                $(".b_entityTP .b_snippet div span")[0].attribs !== undefined &&
+                $(".b_entityTP .b_snippet div span")[0].attribs["data-translation"] !== undefined &&
+                utils.normalizeText($(".b_entityTP .b_snippet div span")[0].children) !== ""
+            ) {
+                rObj.sidebar.snippet = utils.normalizeText($(".b_entityTP .b_snippet div span")[0].children);
             } else {
                 rObj.sidebar.snippet = null;
             }
