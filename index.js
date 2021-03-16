@@ -227,8 +227,8 @@ exports.search = function(query, cb) {
             rObj.sidebar.title = utils.normalizeText($(".b_entityTP .b_entityTitle")[0].children);
             rObj.sidebar.subtitle = utils.normalizeText($(".b_entityTP .b_entitySubTitle")[0].children);
             if (
-                $(".b_entityTP .b_snippet div .b_hide span")[0] ||
-                $(".b_entityTP .b_snippet div .b_hide span")[0].children !== undefined ||
+                $(".b_entityTP .b_snippet div .b_hide span")[0] &&
+                $(".b_entityTP .b_snippet div .b_hide span")[0].children !== undefined &&
                 utils.normalizeText($(".b_entityTP .b_snippet div .b_hide span")[0].children) !== ""
             ) {
                 rObj.sidebar.snippet = utils.normalizeText($(".b_entityTP .b_snippet div .b_hide span")[0].children);
