@@ -527,7 +527,6 @@ exports.suggest = function(query, cb) {
 
     var u = "https://www.bing.com/AS/Suggestions?pt=page.serp&bq=" + query + "&mkt=en-us&qry=" + query + "%20&cp=7&cvid=3C3CDFF3CD3444558180F5CD3AD41B55";
     got(u, {headers: hdr}).then(function(resp) {
-        console.log(resp.body)
         var $ = cheerio.load(resp.body);
         var s = [];
         for (var c in $("#sa_ul li .sa_tm_text")) {

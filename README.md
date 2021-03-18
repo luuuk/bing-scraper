@@ -63,6 +63,8 @@ bing.search({
 
 #### result
 
+*Shortened for readability purposes.*
+
 ```js
 {
   {
@@ -72,48 +74,12 @@ bing.search({
          "title": "I Dont Know How But They Found Me - Wikipedia",
          "url": "https://en.wikipedia.org/wiki/I_Don%27t_Know_How_But_They_Found_Me#:~:text=%28Redirected%20from%20I%20Don%27t%20Know%20How%20But%20They,and%20bassist%20Dallon%20Weekes%20and%20drummer%20Ryan%20Seaman.",
          "description": "Hey, _srchprty_ I've been looking into iDKHOW and Tellexx. Information is really scarce. Any time I find something that could be relevant, it seems to vanish. And I swear I've seen that white figure before... tellexxcorp WROTE ON JUNE 24, 1996 AT 8:46 PM: In accordance with Section 512(f) of the DMCA, this page has been shut down due to false ..."
-      },
-      {
-         "title": "I Dont Know How But They Found Me - Wikipedia",
-         "url": "https://en.wikipedia.org/wiki/I_Don%27t_Know_How_But_They_Found_Me",
-         "description": "Artist Biography by Marcy Donelson. The members of the vibrant dance-rock duo I Dont Know How But They Found Me (sometimes shortened to IDKHow or IDK) knew each other for years before they formed in secret in Salt Lake City, Utah in 2016. Late that year, they played a few shows in the Los Angeles area before word of the project eventually spread. The band released their first single, \"Modern Day Cain,\" …"
-      },
-      {
-         "title": "home - I DONT KNOW HOW BUT THEY FOUND ME",
-         "url": "https://idkhow.com/",
-         "description": "I Dont Know How But They Found Me (stylized in all caps), often shortened to IDKHow (stylized as iDKHOW), is an American musical duo based in Salt Lake City, Utah and formed in 2016. The band consists of lead vocalist and bassist Dallon Weekes and drummer Ryan Seaman. Before signing with Fearless Records, the duo was described as \"the hottest unsigned band in the world\" on the cover of …"
-      },
-      {
-         "title": "I Dont Know How But They Found Me | Biography & History ...",
-         "url": "https://www.allmusic.com/artist/i-dont-know-how-but-they-found-me-mn0004000506/biography",
-         "description": ""
-      },
-      {
-         "title": "IDKHOW History, Tours, Musical style and influences, Band ...",
-         "url": "https://www.wikipedian.net/en/IDKHOW-8404262662",
-         "description": ""
       }
    ],
    "suggestedQueries": [
       {
          "url": "https://www.bing.com/search?q=i+dont+know+how+but+they+found+me+members&filters=dtbk:\"MjExNjEwNDk5IWtnX3Y0X21lbWJlcnMha2dfdjRfbWVtYmVycyEzMTdkM2IxOS03ZjgzLTQ2OGEtODRiYy0zNzZlNGVjZTg2ZGI=\"&FORM=DEPNAV",
          "query": "Members"
-      },
-      {
-         "url": "https://www.bing.com/search?q=i+dont+know+how+but+they+found+me+trivia&filters=dtbk:\"MjExNjEwNDk5IWtnX3Y0X21lbWJlcnMha2dfdjRfdHJpdmlhITMxN2QzYjE5LTdmODMtNDY4YS04NGJjLTM3NmU0ZWNlODZkYg==\"&FORM=DEPNAV",
-         "query": "Trivia"
-      },
-      {
-         "url": "https://www.bing.com/search?q=i+dont+know+how+but+they+found+me+career&filters=dtbk:\"MjExNjEwNDk5IWtnX3Y0X21lbWJlcnMha2dfdjRfY2FyZWVyITMxN2QzYjE5LTdmODMtNDY4YS04NGJjLTM3NmU0ZWNlODZkYg==\"&FORM=DEPNAV",
-         "query": "Career"
-      },
-      {
-         "url": "https://www.bing.com/search?q=i+dont+know+how+but+they+found+me+interviews&filters=dtbk:\"MjExNjEwNDk5IWtnX3Y0X21lbWJlcnMha2dfdjRfaW50ZXJ2aWV3cyEzMTdkM2IxOS03ZjgzLTQ2OGEtODRiYy0zNzZlNGVjZTg2ZGI=\"&FORM=DEPNAV",
-         "query": "Interviews"
-      },
-      {
-         "url": "https://www.bing.com/search?q=i+dont+know+how+but+they+found+me+quotes&filters=dtbk:\"MjExNjEwNDk5IWtnX3Y0X21lbWJlcnMha2dfdjRfcXVvdGVzITMxN2QzYjE5LTdmODMtNDY4YS04NGJjLTM3NmU0ZWNlODZkYg==\"&FORM=DEPNAV",
-         "query": "Quotes"
       }
    ],
    "carousel": {
@@ -123,11 +89,6 @@ bing.search({
             "content": "Dallon Weekes",
             "image": "https://www.bing.com/th?id=AMMS_e4329b0b4c9376319abba997f0c1d2c6&w=60&h=60&c=12&rs=1&qlt=80&cdv=1&rf=Placeholder-Person_60x60.png&pid=16.2",
             "url": "https://www.bing.com/search?q=Dallon+Weekes&filters=ufn%3a%22Dallon+Weekes%22+sid%3a%22449be3c0-84e6-13a9-840d-174cac003f05%22+catguid%3a%22317d3b19-7f83-468a-84bc-376e4ece86db_f9b60a0f%22+segment%3a%22generic.carousel%22+secq%3a%22idkhow+members%22+supwlcar%3a%220%22+segtype%3a%22QXJ0aXN0LFNvY2lhbEFjdGl2ZQ%3d%3d%22+ctype%3a%220%22+mltype%3a%220%22+eltypedim1%3a%22Artist%22&FORM=SNAPCR"
-         },
-         {
-            "content": "Ryan Seaman",
-            "image": "https://www.bing.com/th?id=AMMS_6b061124017bb025ffa9231eead835e3&w=60&h=60&c=12&rs=1&qlt=80&cdv=1&rf=Placeholder-Person_60x60.png&pid=16.2",
-            "url": "https://www.bing.com/search?q=Ryan+Seaman&filters=ufn%3a%22Ryan+Seaman%22+sid%3a%224e83e965-8441-489d-a3be-c27921328780%22+catguid%3a%22317d3b19-7f83-468a-84bc-376e4ece86db_f9b60a0f%22+segment%3a%22generic.carousel%22+secq%3a%22idkhow+members%22+supwlcar%3a%220%22+segtype%3a%22QWN0b3I%3d%22+ctype%3a%220%22+mltype%3a%220%22+eltypedim1%3a%22Artist%22&FORM=SNAPCR"
          }
       ]
    },
@@ -159,6 +120,51 @@ bing.search({
    }
 }
 ```
+
+[Example Code](tests/scrape.js)
+
+### ``searchImages(query, cb)``
+
+This is essentailly the same as ``search(query, cb)``, except for images.
+
+#### result
+
+*Shortened for readability purposes.*
+
+```json
+   "results": [
+      {
+         "thumbnail": "https://tse4.mm.bing.net/th?id=OIP.DZJUvq5klC8wvwYyngEwiAHaEK&pid=15.1",
+         "source": "https://structuraltechnologies.com/big_buck_bunny_2008_1/",
+         "direct": "https://structuraltechnologies.com/wp-content/uploads/2013/04/big_buck_bunny_2008_1.jpg",
+         "description": "buck bunny 2008 videoframe powder player web mplayer tuxarena canto",
+         "title": "big_buck_bunny_2008_1 – STRUCTURAL TECHNOLOGIES"
+      }
+   ],
+   "nextHref": "https://www.bing.com/images/async?q=big+buck+bunny&first=134&count=35&cw=1024&ch=768&relp=35&tsc=ImageBasicHover&datsrc=I&layout=RowBased_Landscape&mmasync=1&dgState=x*336_y*1744_h*182_c*1_i*71_r*19",
+   "currHref": "https://www.bing.com/images/async?q=big+buck+bunny&first=64&count=35&cw=1024&ch=768&relp=35&tsc=ImageBasicHover&datsrc=I&layout=RowBased_Landscape&relo=2&relr=8&rely=1347&mmasync=1&dgState=x*0_y*0_h*0_c*4_i*36_r*9"
+```
+
+[Example Code](tests/scrapeImages.js)
+
+### suggest(query, cb)
+
+Same as ``search`` and ``searchImages`` except ``query`` *must* be a string and not an object.
+
+```json
+   [
+      "idkhow merch",
+      "idkhow choke",
+      "idkhow members",
+      "idkhow choke lyrics",
+      "idkhow modern day cain",
+      "idkhow ep",
+      "idkhow arg",
+      "idkhow gif"
+   ]
+```
+
+[Example Code](tests/scrapeSuggestions.js)
 
 ## license
 
