@@ -510,6 +510,42 @@ exports.imageSearch = function(query, cb) {
     })
 }
 
+exports.suggest = function(query, cb) {
+    var hdr = {
+        "Host": "www.bing.com",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.5",
+        "Accept-Encoding": "gzip, deflate, br",
+        "DNT": "1",
+        "Connection": "keep-alive",
+        "Upgrade-Insecure-Requests": "1",
+        "Sec-GPC": "1",
+        "Cache-Control": "max-age=0",
+        "TE": "Trailers"
+    };
+
+    var u = "https://www.bing.com/AS/Suggestions?pt=page.serp&bq=" + query + "&mkt=en-us&qry=" + query + "%20&cp=7&cvid=3C3CDFF3CD3444558180F5CD3AD41B55";
+    got(u, {headers: hdr}).then(function(resp) {
+        console.log(resp.body)
+        var $ = cheerio.load(resp.body);
+        var s = [];
+        for (var c in $("#sa_ul li .sa_tm_text")) {
+            if (
+                $("#sa_ul li .sa_tm_text")[c] !== undefined &&
+                $("#sa_ul li .sa_tm_text")[c].children !== undefined &&
+                $("#sa_ul li .sa_tm_text")[c].children[0] !== undefined &&
+                utils.normalizeText($("#sa_ul li .sa_tm_text")[c].children) !== ""
+            ) {
+                s.push(utils.normalizeText($("#sa_ul li .sa_tm_text")[c].children));
+            }
+        }
+        cb(null, s);
+    }).catch(function(err) {
+        cb(err, null);
+    });
+}
+
 function repeatUntilZero(nObj) {
     var link = nObj.link;
     var obj = nObj.obj;
