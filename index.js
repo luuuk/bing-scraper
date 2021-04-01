@@ -4,7 +4,7 @@ const utils = require("./utils")
 
 exports.getCookies = function(opts, cb) {
     if (opts == null) {
-        var ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0";
+        var ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0";
         var lang = "en-US,en;q=0.5";
         var ref = "https://www.bing.com/";
     } else {
@@ -42,7 +42,7 @@ exports.search = function(query, cb) {
     if (Object.prototype.toString.call(query) == "[object Object]") {
         if (!query.q && !query.url) {cb({message: "No query/url defined.",code: "noQuery"}, null);}
         if (query.q) {var q = query.q.toString();} else if (query.url) {var url = query.url;}
-        if (query.userAgent) { var ua = query.userAgent; } else { var ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0"; }
+        if (query.userAgent) { var ua = query.userAgent; } else { var ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0"; }
         if (query.lang) { var lang = query.lang; } else { var lang = "en-US,en;q=0.5"; }
         if (query.referer) { var ref = query.referer; } else { var ref = "https://www.bing.com/"; }
         if (query.cookieString) { var cookies = query.cookieString; } else { var cookies = null; }
@@ -69,7 +69,7 @@ exports.search = function(query, cb) {
         }
     } else {
         var q = query.toString();
-        var ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0";
+        var ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0";
         var lang = "en-US,en;q=0.5";
         var ref = "https://www.bing.com/";
         var cookies = null;
@@ -364,7 +364,7 @@ exports.imageSearch = function(query, cb) {
     if (Object.prototype.toString.call(query) == "[object Object]") {
         if (!query.q && !query.url) {cb({message: "No query/url defined.",code: "noQuery"}, null);}
         if (query.q) {var q = query.q.toString();} else if (query.url) {var url = query.url;}
-        if (query.userAgent) { var ua = query.userAgent; } else { var ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0"; }
+        if (query.userAgent) { var ua = query.userAgent; } else { var ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0"; }
         if (query.lang) { var lang = query.lang; } else { var lang = "en-US,en;q=0.5"; }
         if (query.referer) { var ref = query.referer; } else { var ref = "https://www.bing.com/"; }
         if (query.cookieString) { var cookies = query.cookieString; } else { var cookies = null; }
@@ -390,7 +390,7 @@ exports.imageSearch = function(query, cb) {
         }
     } else {
         var q = query.toString();
-        var ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0";
+        var ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0";
         var lang = "en-US,en;q=0.5";
         var ref = "https://www.bing.com/";
         var cookies = null;
@@ -513,7 +513,7 @@ exports.imageSearch = function(query, cb) {
 exports.suggest = function(query, cb) {
     var hdr = {
         "Host": "www.bing.com",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0",
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
         "Accept-Language": "en-US,en;q=0.5",
         "Accept-Encoding": "gzip, deflate, br",
@@ -553,7 +553,9 @@ function repeatUntilZero(nObj) {
     var cb = nObj.cb;
     utils.moreResults(link, obj, function(err, resp) {
         if (err) {
+            console.log(err);
             rObj.prevHref = link;
+            rObj.nextPageError = err;
             cb(false, rObj);
         } else {
             for (var c in resp.results) {rObj.results.push(resp.results[c]);}
@@ -581,6 +583,8 @@ function repeatUntilZeroImg(nObj) {
     var cb = nObj.cb;
     utils.moreImageResults(link, obj, function(err, resp) {
         if (err) {
+            rObj.prevHref = link;
+            rObj.nextPageError = err;
             cb(false, rObj);
         } else {
             for (var c in resp.results) {rObj.results.push(resp.results[c]);}

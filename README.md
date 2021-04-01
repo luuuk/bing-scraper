@@ -51,7 +51,7 @@ bing.search({
 
 ``q`` is the query of your search, ``url`` is a URL you recieve from either the ``prevHref``, ``currHref`` or ``nextHref`` varibles in the response.
 
-``userAgent`` is the User Agent used to request Bing with. If it is not set, it defaults to ``Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0``.
+``userAgent`` is the User Agent used to request Bing with. If it is not set, it defaults to ``Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0``.
 
 ``lang`` is the ``Accept-Language`` header used. If it is not set, it defaults to ``en-US,en;q=0.5``.
 
