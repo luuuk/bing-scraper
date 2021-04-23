@@ -339,7 +339,7 @@ exports.search = function(query, cb) {
         // more web scraping, if requested
         if (pageCount == 1) {cb(false, rObj);} 
         else if (
-            rObj.nextPage !== null
+            rObj.nextPage !== null || rObj.nextHref !== undefined
         ) {
             if (query.url) {var wurl = true;} else {var wurl = false;}
             pageCount = pageCount - 1;
@@ -489,7 +489,7 @@ exports.imageSearch = function(query, cb) {
 
         if (pageCount == 1) {cb(false, rObj);} 
         else if (
-            rObj.nextHref !== null
+            rObj.nextHref !== null || rObj.nextHref !== undefined
         ) {
             if (query.url) {var wurl = true;} else {var wurl = false;}
             pageCount = pageCount - 1;
