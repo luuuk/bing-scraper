@@ -92,6 +92,7 @@ bing.search({
          }
       ]
    },
+   "videoObject": null,
    "sidebar": {
       "title": "I Dont Know How But They Found Me",
       "subtitle": "Band",
@@ -132,6 +133,7 @@ This is essentailly the same as ``search(query, cb)``, except for images.
 *Shortened for readability purposes.*
 
 ```json
+{
    "results": [
       {
          "thumbnail": "https://tse4.mm.bing.net/th?id=OIP.DZJUvq5klC8wvwYyngEwiAHaEK&pid=15.1",
@@ -143,6 +145,7 @@ This is essentailly the same as ``search(query, cb)``, except for images.
    ],
    "nextHref": "https://www.bing.com/images/async?q=big+buck+bunny&first=134&count=35&cw=1024&ch=768&relp=35&tsc=ImageBasicHover&datsrc=I&layout=RowBased_Landscape&mmasync=1&dgState=x*336_y*1744_h*182_c*1_i*71_r*19",
    "currHref": "https://www.bing.com/images/async?q=big+buck+bunny&first=64&count=35&cw=1024&ch=768&relp=35&tsc=ImageBasicHover&datsrc=I&layout=RowBased_Landscape&relo=2&relr=8&rely=1347&mmasync=1&dgState=x*0_y*0_h*0_c*4_i*36_r*9"
+}
 ```
 
 [Example Code](tests/scrapeImages.js)

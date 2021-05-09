@@ -212,6 +212,32 @@ exports.search = function(query, cb) {
             rObj.carousel = null;
         }
 
+        // music video main result scraping 
+        if (
+            $(".entityHeroVideo .b_videocard")[0] !== undefined &&
+            $(".entityHeroVideo .b_videocard .video_metadata_container")[0] !== undefined &&
+            $(".entityHeroVideo .b_videocard .video_metadata_container h3")[0] !== undefined &&
+            $(".entityHeroVideo .b_videocard .video_metadata_container h3")[0].children !== undefined &&
+            utils.normalizeText($(".entityHeroVideo .b_videocard .video_metadata_container h3")[0].children) !== undefined &&
+            $(".entityHeroVideo .b_videocard .video_metadata_container .video_summary")[0] !== undefined &&
+            $(".entityHeroVideo .b_videocard .video_metadata_container .video_summary")[0].children !== undefined &&
+            utils.normalizeText($(".entityHeroVideo .b_videocard .video_metadata_container .video_summary")[0].children) !== undefined &&
+            $(".entityHeroVideo .b_videocard .video_metadata_container .sav-ctrl__link")[0] !== undefined &&
+            $(".entityHeroVideo .b_videocard .video_metadata_container .sav-ctrl__link")[0].attribs !== undefined &&
+            $(".entityHeroVideo .b_videocard .video_metadata_container .sav-ctrl__link")[0].attribs["data-itemmeta"] !== undefined
+        ) {
+            var d = JSON.parse($(".entityHeroVideo .b_videocard .video_metadata_container .sav-ctrl__link")[0].attribs["data-itemmeta"]);
+            if (d.videos[0].murl) {var u = d.videos[0].murl;} else if (d.videos[0].purl) {var u = d.videos[0].purl;} else {var u = null;}
+            var m = {
+                "title": utils.normalizeText($(".entityHeroVideo .b_videocard .video_metadata_container h3")[0].children),
+                "meta": utils.normalizeText($(".entityHeroVideo .b_videocard .video_metadata_container .video_summary")[0].children),
+                "url": u
+            }
+            rObj.videoObject = m;
+        } else {
+            rObj.videoObject = null;
+        }
+
         // sidebar scraping
         if (
             $(".b_entityTP")[0] &&
