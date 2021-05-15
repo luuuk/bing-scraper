@@ -155,6 +155,22 @@ exports.search = function(query, cb) {
             rObj.results.push(result);
         }
 
+        if (
+            $("#sp_requery a")[0] &&
+            $("#sp_requery a")[0].attribs &&
+            $("#sp_requery a")[0].attribs.href &&
+            $("#sp_requery a")[0] &&
+            $("#sp_requery a")[0].children &&
+            utils.normalizeText($("#sp_requery a")[0].children)
+        ) {
+            rObj.didyoumean = {
+                "href": "https://www.bing.com" + $("#sp_requery a")[0].attribs.href,
+                "query": utils.normalizeText($("#sp_requery a")[0].children)
+            };
+        } else {
+            rObj.didyoumean = null;
+        }
+
         // suggested search results
         rObj.suggestedQueries = [];
         for (var c in $(".ent-dtab-btn")) {
