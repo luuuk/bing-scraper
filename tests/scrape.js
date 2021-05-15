@@ -1,7 +1,7 @@
 const bing = require("../index"); /* Imports the package */
 
 bing.search({
-    q: "idkhow memers",        /* Sets query to "idkhow members" */
+    q: "idkhow members",        /* Sets query to "idkhow members" */
     enforceLanguage: true       /* Forces the language to be the browser's lanugage, since none is set - it defaults to English only results*/
 }, function(err, resp) {        /* Sets up the callback. */
     if (err) {                  /* If there is an error getting the results...*/

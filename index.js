@@ -488,7 +488,8 @@ exports.imageSearch = function(query, cb) {
 
     got(u, {headers: hdr}).then(function(resp) {
         var $ = cheerio.load(resp.body);
-        var results = [];
+        var rObj = {};
+        rObj.results = [];
 
         // image scraping
         for (var c in $(".dg_b .iusc")) {
@@ -503,7 +504,7 @@ exports.imageSearch = function(query, cb) {
                         "description": j.desc,
                         "title": j.t
                     };
-                    results.push(obj);
+                    rObj.results.push(obj);
                 } else {
                     continue;
                 }
@@ -512,22 +513,33 @@ exports.imageSearch = function(query, cb) {
             }
         }
 
+        // did you mean
+        if (
+            $(".mmrq2 a")[0] &&
+            $(".mmrq2 a")[0].attribs &&
+            $(".mmrq2 a")[0].attribs.href &&
+            $(".mmrq2 a")[0] &&
+            $(".mmrq2 a")[0].children &&
+            utils.normalizeText($(".mmrq2 a")[0].children)
+        ) {
+            rObj.didyoumean = {
+                "href": "https://www.bing.com" + $(".mmrq2  a")[0].attribs.href,
+                "query": utils.normalizeText($(".mmrq2 a")[0].children)
+            };
+        } else {
+            rObj.didyoumean = null;
+        }
+
         // next href url
         if (
             $(".dg_b .dgControl")[0] !== undefined &&
             $(".dg_b .dgControl")[0].attribs !== undefined &&
             $(".dg_b .dgControl")[0].attribs["data-nexturl"] !== undefined 
         ) {
-            var nextUrl = "https://www.bing.com" + $(".dg_b .dgControl")[0].attribs["data-nexturl"];
+            rObj.nextUrl = "https://www.bing.com" + $(".dg_b .dgControl")[0].attribs["data-nexturl"];
         } else {
-            var nextUrl = null;
+            rObj.nextUrl = null;
         }
-
-        var rObj = {
-            results: results,
-            nextHref: nextUrl,
-            currHref: u
-        };
 
         if (pageCount == 1) {cb(false, rObj);} 
         else if (
