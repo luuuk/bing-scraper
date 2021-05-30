@@ -259,32 +259,27 @@ exports.search = function(query, cb) {
             $(".b_entityTP")[0] &&
             $(".b_entityTP .b_entityTitle")[0] !== undefined &&
             $(".b_entityTP .b_entityTitle")[0].children !== undefined &&
-            $(".b_entityTP .b_entityTitle")[0].children[0] !== undefined &&
-            $(".b_entityTP .b_entitySubTitle")[0] !== undefined &&
-            $(".b_entityTP .b_entitySubTitle")[0].children !== undefined &&
-            $(".b_entityTP .b_entitySubTitle")[0].children[0] !== undefined
+            $(".b_entityTP .b_entityTitle")[0].children[0] !== undefined
         ) {
             // general metadata scraping
             rObj.sidebar = {}
             rObj.sidebar.title = utils.normalizeText($(".b_entityTP .b_entityTitle")[0].children);
-            rObj.sidebar.subtitle = utils.normalizeText($(".b_entityTP .b_entitySubTitle")[0].children);
-            if (
-                $(".b_entityTP .b_snippet div .b_hide span")[0] &&
-                $(".b_entityTP .b_snippet div .b_hide span")[0].children !== undefined &&
-                utils.normalizeText($(".b_entityTP .b_snippet div .b_hide span")[0].children) !== ""
-            ) {
-                rObj.sidebar.snippet = utils.normalizeText($(".b_entityTP .b_snippet div .b_hide span")[0].children);
-            } else if (
-                $(".b_entityTP .b_snippet div span")[0] &&
-                $(".b_entityTP .b_snippet div span")[0].children !== undefined &&
-                $(".b_entityTP .b_snippet div span")[0].attribs !== undefined &&
-                $(".b_entityTP .b_snippet div span")[0].attribs["data-translation"] !== undefined &&
-                utils.normalizeText($(".b_entityTP .b_snippet div span")[0].children) !== ""
-            ) {
-                rObj.sidebar.snippet = utils.normalizeText($(".b_entityTP .b_snippet div span")[0].children);
+            if(
+              $(".b_entityTP .b_entitySubTitle")[0] !== undefined &&
+              $(".b_entityTP .b_entitySubTitle")[0].children !== undefined &&
+              $(".b_entityTP .b_entitySubTitle")[0].children[0] !== undefined
+            ) { 
+              rObj.sidebar.subtitle = utils.normalizeText($(".b_entityTP .b_entitySubTitle")[0].children);
+            }
+
+            // Scrape Snippet
+            
+            if ( $(".b_entityTP .b_snippet_expansion")[0] ) {
+                rObj.sidebar.snippet = utils.normalizeText($(".b_entityTP .b_snippet_expansion")[0].children);
             } else {
                 rObj.sidebar.snippet = null;
             }
+
             if (
                 $(".b_entityTP .b_sideBleed .rms_img")[0] == undefined ||
                 $(".b_entityTP .b_sideBleed .rms_img")[0].attribs == undefined ||
